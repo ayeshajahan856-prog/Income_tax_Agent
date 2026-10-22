@@ -87,37 +87,78 @@ Notes: API errors / rate-limit failures are excluded from every denominator, nev
 
 ---
 
-## 🚀 5. How to Run the Project (প্রজেক্ট চালানোর নিয়ম)
+## 🚀 5. How to Run in VS Code (Windows)
 
-### ক. ডিপেনডেন্সি ইনস্টলেশন (Dependencies)
-```bash
-pip install -r requirements.txt
+### Step 1 — Install the tools
+1. Install **Python 3.10 or newer** from https://www.python.org/downloads/ and enable **Add Python to PATH**.
+2. Install **Visual Studio Code** from https://code.visualstudio.com/.
+3. In VS Code, install the Microsoft **Python** extension.
+
+### Step 2 — Extract and open the project
+1. Extract `Income_tax_Agent.zip` to a normal folder (do not run it from inside the ZIP).
+2. Open VS Code → **File → Open Folder** → select the extracted `Income_tax_Agent` folder.
+3. Open **Terminal → New Terminal**.
+
+### Step 3 — Create and activate a virtual environment
+Run these commands in the VS Code terminal:
+
+```powershell
+py -m venv .venv
+.\.venv\Scripts\Activate.ps1
 ```
 
-### খ. এপিআই কী কনফিগারেশন (API Key Setup)
-`.env.example` ফাইলটি কপি করে `.env` তৈরি করুন এবং আপনার Groq API Key যুক্ত করুন:
-```bash
-GROQ_API_KEY=your_groq_api_key_here
-```
-*(Groq কনসোল থেকে বিনামূল্যে API Key তৈরি করা যায়: https://console.groq.com)*
+If PowerShell blocks activation, use Command Prompt as the VS Code terminal and run:
 
-### গ. ওয়েব অ্যাপ্লিকেশন চালানো (Streamlit UI)
-```bash
-streamlit run app.py
+```bat
+py -m venv .venv
+.venv\Scripts\activate.bat
 ```
-ব্রাউজারে স্বয়ংক্রিয়ভাবে `http://localhost:8501` ওপেন হবে।
 
-### ঘ. কমান্ড লাইন ইন্টারফেস (CLI Mode)
+### Step 4 — Install the packages
+
+```bash
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+```
+
+### Step 5 — Configure the API key
+1. In the VS Code Explorer, copy `.env.example` and name the copy `.env`.
+2. Open `.env` and replace `your_groq_api_key_here` with your own Groq API key from https://console.groq.com.
+3. Save the file. **Never share or upload your `.env` file**; it contains a private key.
+
+### Step 6 — Start the web app
+
+```bash
+python -m streamlit run app.py
+```
+
+Open the local URL shown in the terminal, usually `http://localhost:8501`. To stop the app, click the terminal and press **Ctrl+C**.
+
+### Optional — Run the command-line version
+
 ```bash
 python main.py
 ```
 
-### ঙ. স্বয়ংক্রিয় মূল্যায়ন টেস্ট চালানো (Empirical Evaluation)
+### Optional — Run the evaluation suite
+This calls the configured LLM API and may consume API quota. It can take time.
+
 ```bash
 python run_eval.py
 ```
 
----
+To rebuild the report from an existing evaluation checkpoint without API calls:
+
+```bash
+python run_eval.py --rebuild
+```
+
+### Troubleshooting
+- **`python` or `py` not found:** reinstall Python and enable “Add Python to PATH”, then restart VS Code.
+- **`ModuleNotFoundError`:** confirm `.venv` is activated and rerun `python -m pip install -r requirements.txt`.
+- **API key / authentication error:** check the spelling of `GROQ_API_KEY` in `.env`; do not include extra spaces.
+- **Quota / rate-limit error:** check the API provider's usage limits and try again later.
+- **Port 8501 is busy:** run `python -m streamlit run app.py --server.port 8502`.
 
 ## ⚠️ 6. System Limitations & Academic Disclaimer
 
