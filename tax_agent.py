@@ -280,10 +280,13 @@ class BangladeshTaxAgent:
         if any(w in q for w in ["ay na thakle", "shunno", "zero income", "আয় না থাকলে", "kono income nai"]):
             if slots.get("has_tin_or_assets") is None and not tokens.intersection({"tin", "car", "bari", "গাড়ি", "বাড়ি", "টিন"}):
                 return (
-                    "✅ **সংক্ষিপ্ত উত্তর**: আপনার কোনো আয় না থাকলে স্বাভাবিক নিয়মে কোনো আয়কর দিতে হবে না।\n\n"
-                    "➡️ **তবে আপনার জন্য ১টি অত্যন্ত গুরুত্বপূর্ণ স্পষ্টীকরণ প্রয়োজন**:\n"
-                    "আয়কর আইন ২০২৩-এর ধারা ১৬৬ অনুযায়ী আয় শূন্য হলেও আপনার কি কোনো **টিআইএন (TIN)** আছে? "
-                    "কিংবা আপনার নামে সিটি কর্পোরেশন এলাকায় কোনো জমি/বাড়ি/ফ্ল্যাট, মোটরগাড়ি (কার/জিপ) অথবা কোনো ব্যবসার ট্রেড লাইসেন্স আছে কি? (অনুগ্রহ করে হ্যাঁ বা না জানান)"
+                    "✅ **Short Answer**: If you have zero taxable income, no statutory income tax is payable under standard rules (Tax = BDT 0).\n\n"
+                    "➡️ **However, an important clarification is required under Section 166**:\n"
+                    "Under Section 166 of the Income Tax Act 2023, even if your income is zero, filing an income-tax return is mandatory if you meet any of these conditions:\n"
+                    "1. Do you hold an active **TIN (Taxpayer Identification Number)**?\n"
+                    "2. Do you own any land, apartment, or house in City Corporation, Cantonment, or Pourashava areas?\n"
+                    "3. Do you own a motor vehicle (car/jeep), or hold a commercial trade license?\n\n"
+                    "*(Please answer Yes or No to determine your filing requirement)*"
                 )
 
         # Case 2: Gift mentioned without sender
@@ -293,10 +296,10 @@ class BangladeshTaxAgent:
 
             if not has_sender:
                 return (
-                    "✅ **সংক্ষিপ্ত উত্তর**: উপহারের ওপর কর প্রযোজ্য হবে কিনা তা নির্ভর করে উপহারটি কার কাছ থেকে পেয়েছেন তার ওপর।\n\n"
-                    "➡️ **হিসাব নির্ধারণ করতে অনুগ্রহ করে জানান**:\n"
-                    "• উপহারটি আপনি কার কাছ থেকে পেয়েছেন? (যেমন: পিতা-মাতা, স্বামী/স্ত্রী, ভাই-বোন নাকি কোনো বন্ধু/সহকর্মী?)\n"
-                    "• অর্থটি কি ব্যাংকিং চ্যানেলে (চেক/ট্রান্সফার) এসেছে নাকি নগদে?"
+                    "✅ **Short Answer**: Whether a gift is taxable depends on the donor's relationship to you and the transaction channel.\n\n"
+                    "➡️ **Please clarify the following to compute your tax**:\n"
+                    "• **Who gave you the gift?** (e.g. parents, spouse, children, siblings, or a friend / non-relative?)\n"
+                    "• **Payment Method:** Was the amount received through banking channels (bank transfer, cheque, pay order) or in cash?"
                 )
 
         return None
@@ -329,28 +332,28 @@ class BangladeshTaxAgent:
         # 2. RAG Retrieval (Concise snippet context to prevent TPM rate limits)
         retrieved_docs = retrieve_relevant_laws(normalized_query, top_k=2)
         law_context = "\n\n".join([
-            f"【আইনি ধারা: {', '.join(d['sections'])} - {d['title']}】\nবিধান: {d['snippet']}"
+            f"【Statutory Section: {', '.join(d['sections'])} - {d['title']}】\nSnippet: {d['snippet']}"
             for d in retrieved_docs
         ])
 
         system_instruction = (
-            "তুমি বাংলাদেশ আয়কর আইন ২০২৩ (Bangladesh Income Tax Act 2023) এর জন্য তৈরি একজন প্রফেশনাল ও নির্ভুল AI Tax Agent।\n"
-            f"সক্রিয় করবর্ষ: ২০২৫-২০২৬ (AY 2025-26)। ব্যবহারকারীর বর্তমান ক্যাটাগরি: {taxpayer_category} "
-            f"(করমুক্ত সীমা: ৳ {get_exemption_limit(taxpayer_category):,})।\n\n"
-            "🔴 **উত্তরের বাধ্যবাধকতা ও স্ট্রাকচার (কঠোরভাবে এই ফরম্যাটে উত্তর দেবে)**:\n"
-            "✅ **সংক্ষিপ্ত উত্তর**: (১-২ লাইনে মূল সিদ্ধান্ত বা ফলাফল স্পষ্ট করে লিখবে)\n"
-            "📖 **আইন ও ধারা**: (আইনটির সঠিক ধারা যেমন Section 32, 36, 45, 66 বা Section 166 উল্লেখ করে যৌক্তিক কারণ লিখবে)\n"
-            "🧮 **হিসাব বিবরণী**: (ট্যাক্স হিসাবের ক্ষেত্রে ক্যালকুলেটর টুলের সাহায্য নিয়ে হিসাব উপস্থাপন করবে। কোনো কর না থাকলে 'করমুক্ত' লিখবে)\n"
-            "➡️ **পরবর্তী পদক্ষেপ / স্পষ্টীকরণ**: (করদাতার রিটার্ন দাখিলের পরামর্শ বা কোনো প্রয়োজনীয় প্রশ্ন থাকলে করবে)\n\n"
-            "⚠️ **বিশেষ নীতিমালা**:\n"
-            "- প্যারাগ্রাফে বড় লেখা নিষিদ্ধ। পয়েন্ট আকারে সুস্পষ্ট রাখো।\n"
-            "- কোনো অবস্থাতেই মনগড়া হিসাব করবে না। salary_tax, rental_tax, gift_check বা combined_tax টুল ব্যবহার করবে।\n"
-            "- বাড়ি/ফ্ল্যাট ভাড়ার ক্ষেত্রে বাণিজ্যিক (commercial) শব্দ উল্লেখ না থাকলে আবাসিক ধরে is_commercial=False দিয়ে rental_tax কল করবে।\n"
-            "- প্রশ্নে যদি একাধিক খাত থাকে (যেমন বেতন ও উপহার, বা বেতন ও ভাড়া, বা বেতন ও ব্যবসা), তবে কোনো প্রশ্ন না করে অবিলম্বে combined_tax টুল কল করবে।\n"
-            "- বন্ধুর কাছ থেকে প্রাপ্ত উপহার সবসময় করযোগ্য অন্যান্য খাতের আয় হিসেবে taxable_gift এ হিসাব করবে।\n"
-            "- ফ্রিল্যান্সিং বা আইটিইএস (ITES) সফটওয়্যার রপ্তানি হতে বৈধ ব্যাংকিং চ্যানেলে রেমিট্যান্স আয় হলে তা ষষ্ঠ তফসিল (Sixth Schedule) অনুযায়ী সম্পূর্ণ করমুক্ত (ট্যাক্স = ০ টাকা)।\n"
-            "- অসত্য ধারা উল্লেখ সম্পূর্ণ নিষিদ্ধ (যেমন রিটার্ন দাখিলের মূল ধারা হলো Section 166)।\n"
-            "- তথ্য সম্পূর্ণ না থাকলে সরাসরি স্পষ্টীকরণ প্রশ্ন করবে। নিশ্চিত না হলে বলবে 'আমি এ বিষয়ে নিশ্চিত নই'।\n\n"
+            "You are an autonomous, highly accurate AI Tax Agent specialized in the Bangladesh Income Tax Act 2023 (আয়কর আইন ২০২৩).\n"
+            f"Active Assessment Year: 2025-2026 (AY 2025-26). Current Taxpayer Category: {taxpayer_category} "
+            f"(Statutory Exemption Threshold: ৳ {get_exemption_limit(taxpayer_category):,}).\n\n"
+            "🔴 **OUTPUT FORMAT & MANDATORY STRUCTURE (Strictly respond in English using these 4 exact headings)**:\n"
+            "✅ **Short Answer**:\n(1-2 clear concise sentences stating the direct conclusion or exact net tax payable amount in BDT)\n\n"
+            "📖 **Law & Section**:\n(Cite authentic sections of the Income Tax Act 2023, such as Section 32, 36, 45, 66, or Section 166, with legal justification)\n\n"
+            "🧮 **Calculation Details**:\n(Step-by-step breakdown using the deterministic calculator tools. If tax is zero, state 'Tax Payable: BDT 0 (Tax-Free)')\n\n"
+            "➡️ **Next Steps / Clarifications**:\n(Provide return filing guidance under Section 166, compliance advice, or request clarification if parameters are missing)\n\n"
+            "⚠️ **STRICT OPERATIONAL RULES**:\n"
+            "- Always write your response in clear, professional English.\n"
+            "- Do not calculate tax arithmetic mentally; ALWAYS invoke the corresponding Python tool (`salary_tax`, `rental_tax`, `gift_check`, or `combined_tax`).\n"
+            "- For residential rental property, assume residential (repair deduction 25%, is_commercial=False) unless commercial is explicitly stated.\n"
+            "- For multiple income streams (salary + gift, salary + rent, business + salary), invoke `combined_tax`.\n"
+            "- Gifts from friends or non-relatives are ALWAYS taxable as other income (`taxable_gift`).\n"
+            "- Freelancing / ITES software export earnings received through official banking channels are 100% tax-exempt under Sixth Schedule (Tax = 0 BDT).\n"
+            "- Never cite non-existent sections. Return filing obligation is strictly governed by Section 166.\n"
+            "- If information is incomplete or ambiguous, ask a clarifying question directly.\n\n"
             f"--- [RAG Retrieved Legal Chunks] ---\n{law_context}\n-------------------------------------"
         )
 
