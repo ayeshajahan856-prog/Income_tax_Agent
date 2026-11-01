@@ -12,7 +12,7 @@ import auth_db
 # ----------------- CONFIGURATION -----------------
 st.set_page_config(
     page_title="Bangladesh Income Tax AI Agent",
-    page_icon="⚖️",
+    page_icon="🇧🇩",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -34,7 +34,7 @@ if "logged_in_user" not in st.session_state:
     st.session_state.logged_in_user = None
 
 if "current_page" not in st.session_state:
-    st.session_state.current_page = "landing"  # "landing", "login", "register", "chat"
+    st.session_state.current_page = "landing"  # "landing", "auth", "chat"
 
 if "auth_tab" not in st.session_state:
     st.session_state.auth_tab = "login"
@@ -42,71 +42,66 @@ if "auth_tab" not in st.session_state:
 if "tax_agent" not in st.session_state:
     st.session_state.tax_agent = BangladeshTaxAgent(api_key=GROQ_API_KEY)
 
-# ----------------- STYLING (MODERN PROFESSIONAL SAAS DESIGN) -----------------
+# ----------------- STYLING (CLEAN ORIGINAL THEME + CHATGPT STYLE PROFILE) -----------------
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
     
     html, body, [class*="css"] {
         font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
     }
     
-    /* Top Navbar */
+    /* Top Navbar on Landing Page */
     .landing-nav {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 14px 28px;
-        background: rgba(10, 25, 47, 0.95);
-        backdrop-filter: blur(12px);
-        border-radius: 14px;
-        margin-bottom: 24px;
+        padding: 12px 24px;
+        background: #0f172a;
+        border-radius: 12px;
+        margin-bottom: 20px;
         color: white;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
     }
-    .brand-title {
+    .landing-nav-brand {
         display: flex;
         align-items: center;
         gap: 12px;
-        font-size: 1.25rem;
+        font-size: 1.15rem;
         font-weight: 700;
-        letter-spacing: -0.3px;
         color: #ffffff;
     }
     
-    /* Hero Banner matching user uploaded image 1 */
+    /* Hero Banner matching Image 1 */
     .hero-container {
         background: radial-gradient(circle at 85% 30%, rgba(26, 86, 219, 0.45) 0%, rgba(10, 25, 47, 0.98) 65%),
                     linear-gradient(135deg, #071329 0%, #0d2757 55%, #103778 100%);
-        border-radius: 24px;
-        padding: 55px 45px;
+        border-radius: 20px;
+        padding: 45px 40px;
         color: white;
-        position: relative;
-        overflow: hidden;
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        box-shadow: 0 20px 45px rgba(6, 22, 53, 0.4);
-        margin-bottom: 35px;
+        margin-bottom: 30px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 15px 35px rgba(6, 22, 53, 0.35);
     }
     .hero-badge {
         display: inline-block;
-        background: rgba(37, 99, 235, 0.25);
+        background: rgba(37, 99, 235, 0.3);
         border: 1px solid rgba(96, 165, 250, 0.4);
         color: #93c5fd;
-        padding: 6px 14px;
-        border-radius: 30px;
-        font-size: 0.85rem;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
         font-weight: 600;
-        margin-bottom: 18px;
+        margin-bottom: 14px;
         text-transform: uppercase;
-        letter-spacing: 0.8px;
+        letter-spacing: 0.6px;
     }
     .hero-heading {
-        font-size: 3.2rem;
+        font-size: 2.9rem;
         font-weight: 800;
-        line-height: 1.15;
-        letter-spacing: -1px;
+        line-height: 1.18;
         color: #ffffff;
-        margin-bottom: 16px;
+        margin-bottom: 14px;
+        letter-spacing: -0.5px;
     }
     .hero-heading span {
         background: linear-gradient(135deg, #60a5fa 0%, #93c5fd 100%);
@@ -114,147 +109,130 @@ st.markdown("""
         -webkit-text-fill-color: transparent;
     }
     .hero-subtitle {
-        font-size: 1.15rem;
+        font-size: 1.05rem;
         line-height: 1.6;
         color: #cbd5e1;
-        max-width: 600px;
-        margin-bottom: 30px;
+        max-width: 620px;
+        margin-bottom: 24px;
     }
     
-    /* Feature Badge Cards at bottom of Hero (Image 1) */
+    /* 4 Feature Badges at Bottom of Hero */
     .feature-grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
-        gap: 16px;
-        margin-top: 25px;
+        gap: 14px;
+        margin-top: 20px;
     }
     .feature-item {
         background: rgba(255, 255, 255, 0.05);
         border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 16px;
-        padding: 16px 18px;
+        border-radius: 12px;
+        padding: 14px 12px;
         text-align: center;
-        backdrop-filter: blur(8px);
-        transition: transform 0.2s ease, border-color 0.2s ease;
-    }
-    .feature-item:hover {
-        transform: translateY(-3px);
-        border-color: rgba(96, 165, 250, 0.5);
-        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(6px);
     }
     .feature-icon {
-        font-size: 1.6rem;
-        margin-bottom: 8px;
+        font-size: 1.5rem;
+        margin-bottom: 6px;
     }
     .feature-title {
         font-weight: 700;
-        font-size: 0.95rem;
+        font-size: 0.9rem;
         color: #ffffff;
-        margin-bottom: 4px;
+        margin-bottom: 2px;
     }
     .feature-desc {
-        font-size: 0.8rem;
+        font-size: 0.78rem;
         color: #94a3b8;
     }
     
-    /* Login / Register Card (Image 2) */
-    .auth-card {
+    /* ChatGPT-style User Profile Row (Exact Image 2 Match) */
+    .chatgpt-profile-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 12px;
         background: #ffffff;
-        border-radius: 24px;
-        padding: 40px 36px;
-        box-shadow: 0 25px 60px rgba(15, 23, 42, 0.12);
         border: 1px solid #e2e8f0;
-        max-width: 480px;
-        margin: 0 auto;
+        border-radius: 12px;
+        margin-bottom: 12px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
     }
-    .auth-header {
-        text-align: center;
-        margin-bottom: 24px;
-    }
-    .auth-header h2 {
-        font-size: 1.8rem;
-        font-weight: 800;
-        color: #0f172a;
-        margin-bottom: 6px;
-        letter-spacing: -0.5px;
-    }
-    .auth-header p {
-        color: #64748b;
-        font-size: 0.92rem;
-    }
-    
-    /* Profile Badge in Sidebar */
-    .profile-card {
-        background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%);
-        border: 1px solid #dbeafe;
-        border-radius: 14px;
-        padding: 14px 16px;
-        margin-bottom: 16px;
-    }
-    .profile-name {
-        font-size: 1rem;
+    .user-avatar-circle {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #7c3aed 0%, #9333ea 100%);
+        color: #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         font-weight: 700;
-        color: #1e3a8a;
-        margin-bottom: 2px;
+        font-size: 1rem;
+        letter-spacing: 0.5px;
+        flex-shrink: 0;
     }
-    .profile-email {
-        font-size: 0.82rem;
-        color: #64748b;
-        margin-bottom: 8px;
+    .user-info-text {
+        flex-grow: 1;
+        overflow: hidden;
     }
-    .profile-stat {
+    .user-name-text {
+        font-weight: 700;
+        font-size: 0.96rem;
+        color: #0f172a;
+        line-height: 1.2;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .user-plan-badge {
         font-size: 0.78rem;
-        color: #0369a1;
-        font-weight: 600;
-        background: #e0f2fe;
-        padding: 3px 8px;
-        border-radius: 6px;
-        display: inline-block;
+        color: #64748b;
+        font-weight: 500;
     }
 
-    /* Chat App Cards */
+    /* Original App Styling */
     .main-title {
-        font-size: 1.9rem;
-        font-weight: 800;
-        color: #0f172a;
-        letter-spacing: -0.5px;
-        margin-bottom: 2px;
+        font-size: 2.1rem;
+        font-weight: 700;
+        color: #0d5c3a;
+        margin-bottom: 0.1rem;
     }
     .sub-title {
-        color: #64748b;
-        font-size: 0.92rem;
+        color: #4A5568;
+        font-size: 0.95rem;
         margin-bottom: 1.2rem;
     }
     .tax-card {
         background: #f0fdf4;
         border: 1px solid #bbf7d0;
-        border-radius: 10px;
-        padding: 12px 14px;
+        border-radius: 8px;
+        padding: 10px 14px;
         margin: 8px 0;
     }
     .slot-card {
         background: #eff6ff;
         border: 1px solid #bfdbfe;
-        border-radius: 10px;
-        padding: 12px 14px;
+        border-radius: 8px;
+        padding: 10px 14px;
         margin: 8px 0;
         font-size: 0.88rem;
     }
     .recents-header {
-        font-size: 0.8rem;
-        font-weight: 700;
+        font-size: 0.82rem;
+        font-weight: 600;
         color: #64748b;
         text-transform: uppercase;
-        letter-spacing: 0.8px;
+        letter-spacing: 0.5px;
         margin-top: 14px;
-        margin-bottom: 8px;
+        margin-bottom: 6px;
     }
     .peas-card {
         background: #f8fafc;
-        border-left: 4px solid #2563eb;
-        padding: 14px;
+        border-left: 4px solid #0284c7;
+        padding: 12px;
         margin-bottom: 12px;
-        border-radius: 8px;
+        border-radius: 6px;
         font-size: 0.88rem;
     }
 </style>
@@ -262,21 +240,18 @@ st.markdown("""
 
 
 # ==============================================================================
-# VIEW 1: LANDING PAGE (Hero matching Image 1)
+# VIEW 1: LANDING PAGE
 # ==============================================================================
 def render_landing_page():
-    # Top Navbar
+    # Top Navbar with original Bangladesh Seal
     st.markdown("""
     <div class="landing-nav">
-        <div class="brand-title">
-            <span style="font-size: 1.6rem;">⚖️</span>
-            <div>
-                <div style="line-height: 1.1;">Bangladesh</div>
-                <div style="font-size: 0.85rem; font-weight: 500; color: #94a3b8;">Income Tax Agent</div>
-            </div>
+        <div class="landing-nav-brand">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/84/Government_Seal_of_Bangladesh.svg" width="34" style="vertical-align: middle;">
+            <span>Bangladesh Income Tax Agent</span>
         </div>
-        <div style="display: flex; gap: 24px; align-items: center; font-size: 0.92rem; font-weight: 500;">
-            <span style="color: #60a5fa; cursor: pointer;">Home</span>
+        <div style="display: flex; gap: 24px; align-items: center; font-size: 0.92rem;">
+            <span style="color: #60a5fa; font-weight: 600;">Home</span>
             <span style="color: #cbd5e1;">About</span>
             <span style="color: #cbd5e1;">Features</span>
             <span style="color: #cbd5e1;">Help</span>
@@ -284,7 +259,6 @@ def render_landing_page():
     </div>
     """, unsafe_allow_html=True)
 
-    # Hero Banner
     col_hero, col_action = st.columns([7, 3])
     with col_hero:
         st.markdown("""
@@ -316,21 +290,21 @@ def render_landing_page():
                 </div>
                 <div class="feature-item">
                     <div class="feature-icon">🔒</div>
-                    <div class="feature-title">Secure & Saved</div>
-                    <div class="feature-desc">Dedicated History</div>
+                    <div class="feature-title">Personal History</div>
+                    <div class="feature-desc">Saved Consultations</div>
                 </div>
             </div>
         </div>
         """, unsafe_allow_html=True)
         
     with col_action:
-        st.markdown("<div style='height: 25px;'></div>", unsafe_allow_html=True)
+        st.markdown("<div style='height: 20px;'></div>", unsafe_allow_html=True)
         st.markdown("""
-        <div style="background: white; border-radius: 20px; padding: 32px 24px; border: 1px solid #e2e8f0; box-shadow: 0 15px 35px rgba(0,0,0,0.06); text-align: center;">
-            <div style="font-size: 2.2rem; margin-bottom: 10px;">🏛️</div>
-            <h3 style="font-weight: 800; color: #0f172a; margin-bottom: 8px;">Start Tax Consultation</h3>
-            <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 22px;">
-                Sign in to your account to access personalized tax calculation, Section 166 return guidance, and saved multi-session chat history.
+        <div style="background: white; border-radius: 18px; padding: 28px 22px; border: 1px solid #e2e8f0; box-shadow: 0 10px 30px rgba(0,0,0,0.06); text-align: center;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/84/Government_Seal_of_Bangladesh.svg" width="60" style="margin-bottom: 12px;">
+            <h3 style="font-weight: 700; color: #0d5c3a; margin-bottom: 8px;">Start Tax Consultation</h3>
+            <p style="color: #64748b; font-size: 0.88rem; line-height: 1.5; margin-bottom: 22px;">
+                Sign in to your account to access your personal tax calculations, Section 166 return guidance, and saved multi-session chat history.
             </p>
         </div>
         """, unsafe_allow_html=True)
@@ -350,24 +324,23 @@ def render_landing_page():
 
 
 # ==============================================================================
-# VIEW 2: AUTHENTICATION (Login / Register matching Image 2)
+# VIEW 2: AUTHENTICATION (Login / Register)
 # ==============================================================================
 def render_auth_page():
-    # Back to Home Link
     col_back, col_space = st.columns([2, 8])
     with col_back:
         if st.button("← Back to Home", type="secondary"):
             st.session_state.current_page = "landing"
             st.rerun()
 
-    st.markdown("<div style='height: 20px;'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='height: 15px;'></div>", unsafe_allow_html=True)
     
     col_l, col_center, col_r = st.columns([3, 5, 3])
     with col_center:
         st.markdown("""
-        <div style="text-align: center; margin-bottom: 20px;">
-            <span style="font-size: 2.5rem;">⚖️</span>
-            <h2 style="font-weight: 800; color: #0f172a; margin: 4px 0;">Bangladesh Income Tax Agent</h2>
+        <div style="text-align: center; margin-bottom: 18px;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/84/Government_Seal_of_Bangladesh.svg" width="65" style="margin-bottom: 8px;">
+            <h2 style="font-weight: 800; color: #0d5c3a; margin: 4px 0;">Bangladesh Income Tax Agent</h2>
             <p style="color: #64748b; font-size: 0.92rem;">Access your personalized tax assistant & history</p>
         </div>
         """, unsafe_allow_html=True)
@@ -401,7 +374,7 @@ def render_auth_page():
                         st.error(msg)
 
             st.markdown("""
-            <div style="text-align: center; margin-top: 18px; font-size: 0.88rem; color: #64748b;">
+            <div style="text-align: center; margin-top: 16px; font-size: 0.88rem; color: #64748b;">
                 Don't have an account yet? Switch to <b>Register</b> tab above.
             </div>
             """, unsafe_allow_html=True)
@@ -468,22 +441,28 @@ def render_chat_app():
     curr_id = st.session_state.current_chat_id
     current_conv = st.session_state.conversations[curr_id]
 
+    # Generate initials for circular avatar (matching ChatGPT style Image 2)
+    name_parts = user['name'].strip().split()
+    if len(name_parts) >= 2:
+        initials = (name_parts[0][0] + name_parts[1][0]).upper()
+    elif len(name_parts) == 1 and len(name_parts[0]) >= 2:
+        initials = name_parts[0][:2].upper()
+    else:
+        initials = user['name'][:1].upper() if user['name'] else "U"
+
     # ----------------- SIDEBAR -----------------
     with st.sidebar:
-        # Profile Card
-        total_chats = auth_db.count_user_chats(user_id)
+        # Original Bangladesh Government Seal
+        st.image("https://upload.wikimedia.org/wikipedia/commons/8/84/Government_Seal_of_Bangladesh.svg", width=65)
+        st.markdown("### 🏛️ Taxpayer Dashboard")
+
+        # ChatGPT-style User Profile (matching Image 2)
         st.markdown(f"""
-        <div class="profile-card">
-            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
-                <span style="font-size: 1.8rem;">👤</span>
-                <div>
-                    <div class="profile-name">{user['name']}</div>
-                    <div class="profile-email">{user['email']}</div>
-                </div>
-            </div>
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span class="profile-stat">💾 {total_chats} Saved Chats</span>
-                <span style="font-size: 0.75rem; color: #64748b;">Member since {user.get('created_at', '2026')}</span>
+        <div class="chatgpt-profile-row">
+            <div class="user-avatar-circle">{initials}</div>
+            <div class="user-info-text">
+                <div class="user-name-text">{user['name']}</div>
+                <div class="user-plan-badge">Free • Member</div>
             </div>
         </div>
         """, unsafe_allow_html=True)
@@ -528,7 +507,7 @@ def render_chat_app():
             st.rerun()
 
         # 2. Recents Section with Saved Chats
-        st.markdown('<div class="recents-header">Saved Chat History</div>', unsafe_allow_html=True)
+        st.markdown('<div class="recents-header">Recents</div>', unsafe_allow_html=True)
         for c_id, conv in list(st.session_state.conversations.items()):
             is_active = (c_id == curr_id)
             chat_title = conv.get("title", "Chat")
@@ -552,7 +531,7 @@ def render_chat_app():
         st.markdown("---")
         
         # 3. Dynamic Taxpayer Category for Current Query
-        st.markdown("#### 👤 Taxpayer Category (Per Case)")
+        st.markdown("#### 👤 Taxpayer Category")
         category_options = {
             "regular": "Individual / Male (General)",
             "female": "Female & Senior Citizens (65+)",
@@ -602,7 +581,7 @@ def render_chat_app():
             """, unsafe_allow_html=True)
 
         st.markdown("---")
-        st.markdown("#### 💡 Sample Test Inquiries:")
+        st.markdown("#### 💡 Sample Test Questions:")
         samples = [
             "My annual salary is 12,00,000 BDT, what is my tax?",
             "If I have zero income, do I still need to file a tax return?",
@@ -619,28 +598,19 @@ def render_chat_app():
         st.markdown("---")
         st.markdown("""
         <div style="font-size: 0.74rem; color: #64748b; line-height: 1.45;">
-            ⚖️ <b>Legal Notice:</b> Educational AI decision-support system. Does not replace professional tax advocate advice.
+            ⚖️ <b>Legal Disclaimer:</b> Educational AI prototype for decision-support and does not substitute for certified tax advocate or official NBR legal advice.
         </div>
         """, unsafe_allow_html=True)
 
     # ----------------- MAIN CHAT / EVALUATION INTERFACE -----------------
-    col_t1, col_t2 = st.columns([8, 2])
-    with col_t1:
-        st.markdown('<div class="main-title">⚖️ Bangladesh Income Tax AI Assistant</div>', unsafe_allow_html=True)
-        st.markdown('<div class="sub-title">Autonomous AI Tax Agent based on Bangladesh Income Tax Act 2023 • Assessment Year 2025-2026</div>', unsafe_allow_html=True)
-    with col_t2:
-        st.markdown(f"""
-        <div style="text-align: right; padding-top: 10px;">
-            <span style="font-size: 0.85rem; color: #64748b;">Logged in as:</span><br>
-            <b style="color: #1e3a8a;">{user['name']}</b>
-        </div>
-        """, unsafe_allow_html=True)
+    st.markdown('<div class="main-title">🇧🇩 Bangladesh Income Tax AI Assistant</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sub-title">Autonomous AI Tax Assistant based on Bangladesh Income Tax Act 2023 • Assessment Year 2025-2026</div>', unsafe_allow_html=True)
 
     # Tabs
     tab_chat, tab_peas, tab_eval = st.tabs([
-        "💬 Interactive Conversation",
+        "💬 Conversation",
         "📋 PEAS Specification & Architecture",
-        "📊 Benchmark Evaluation Dashboard"
+        "📊 System Evaluation & Research"
     ])
 
     # ----------------- TAB 2: PEAS SPECIFICATION -----------------
