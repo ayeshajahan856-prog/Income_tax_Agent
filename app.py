@@ -45,254 +45,254 @@ if "tax_agent" not in st.session_state:
 # ----------------- STYLING (CLEAN ORIGINAL THEME + CHATGPT STYLE PROFILE) -----------------
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
     
     html, body, [class*="css"] {
-        font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
     
-    /* Top Navbar on Landing Page */
-    .landing-nav {
+    /* Top Professional Navigation Bar */
+    .gov-top-bar {
+        background: #0f172a;
+        border-radius: 10px;
+        padding: 10px 20px;
+        margin-bottom: 24px;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 12px 24px;
-        background: #0f172a;
-        border-radius: 12px;
-        margin-bottom: 20px;
-        color: white;
+        border: 1px solid #1e293b;
     }
-    .landing-nav-brand {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        font-size: 1.15rem;
-        font-weight: 700;
+    .gov-title-text {
         color: #ffffff;
+        font-weight: 700;
+        font-size: 1.12rem;
+        letter-spacing: -0.2px;
     }
     
-    /* Hero Banner matching Image 1 */
-    .hero-container {
-        background: radial-gradient(circle at 85% 30%, rgba(26, 86, 219, 0.45) 0%, rgba(10, 25, 47, 0.98) 65%),
-                    linear-gradient(135deg, #071329 0%, #0d2757 55%, #103778 100%);
-        border-radius: 20px;
-        padding: 45px 40px;
+    /* Hero Section (Executive Financial Dashboard Look) */
+    .corp-hero-card {
+        background: linear-gradient(135deg, #0b192c 0%, #1e3e62 100%);
+        border-radius: 16px;
+        padding: 42px 38px;
         color: white;
-        margin-bottom: 30px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        box-shadow: 0 15px 35px rgba(6, 22, 53, 0.35);
+        border: 1px solid #1e293b;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        margin-bottom: 24px;
     }
-    .hero-badge {
+    .corp-tag {
         display: inline-block;
-        background: rgba(37, 99, 235, 0.3);
-        border: 1px solid rgba(96, 165, 250, 0.4);
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
         color: #93c5fd;
         padding: 4px 12px;
-        border-radius: 20px;
-        font-size: 0.8rem;
+        border-radius: 6px;
+        font-size: 0.78rem;
         font-weight: 600;
-        margin-bottom: 14px;
+        letter-spacing: 0.5px;
         text-transform: uppercase;
-        letter-spacing: 0.6px;
+        margin-bottom: 14px;
     }
-    .hero-heading {
-        font-size: 2.9rem;
+    .corp-heading {
+        font-size: 2.7rem;
         font-weight: 800;
         line-height: 1.18;
         color: #ffffff;
+        letter-spacing: -0.6px;
         margin-bottom: 14px;
-        letter-spacing: -0.5px;
     }
-    .hero-heading span {
-        background: linear-gradient(135deg, #60a5fa 0%, #93c5fd 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+    .corp-heading span {
+        color: #60a5fa;
     }
-    .hero-subtitle {
-        font-size: 1.05rem;
+    .corp-desc {
+        font-size: 1rem;
         line-height: 1.6;
         color: #cbd5e1;
         max-width: 620px;
         margin-bottom: 24px;
     }
     
-    /* 4 Feature Badges at Bottom of Hero */
-    .feature-grid {
+    /* Professional 4-Grid Capabilities */
+    .corp-grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
-        gap: 14px;
-        margin-top: 20px;
+        gap: 12px;
+        margin-top: 18px;
     }
-    .feature-item {
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 12px;
-        padding: 14px 12px;
-        text-align: center;
-        backdrop-filter: blur(6px);
+    .corp-col {
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 10px;
+        padding: 14px;
+        text-align: left;
     }
-    .feature-icon {
-        font-size: 1.5rem;
-        margin-bottom: 6px;
-    }
-    .feature-title {
-        font-weight: 700;
-        font-size: 0.9rem;
+    .corp-col-title {
+        font-weight: 600;
+        font-size: 0.88rem;
         color: #ffffff;
-        margin-bottom: 2px;
+        margin-bottom: 3px;
     }
-    .feature-desc {
-        font-size: 0.78rem;
+    .corp-col-desc {
+        font-size: 0.76rem;
         color: #94a3b8;
+        line-height: 1.4;
     }
     
-    /* ChatGPT-style User Profile Row (Exact Image 2 Match) */
-    .chatgpt-profile-row {
+    /* Action Box on Right (Smart Tax Calculation) */
+    .action-box-container {
+        background: #ffffff;
+        border-radius: 16px;
+        padding: 32px 24px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+        text-align: center;
+    }
+    .action-box-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #0f172a;
+        margin-top: 10px;
+        margin-bottom: 20px;
+        letter-spacing: -0.3px;
+    }
+    
+    /* Minimalist Profile Row (ChatGPT Style) */
+    .profile-pill {
         display: flex;
         align-items: center;
         gap: 12px;
-        padding: 10px 12px;
-        background: #ffffff;
+        padding: 8px 12px;
+        background: #f8fafc;
         border: 1px solid #e2e8f0;
-        border-radius: 12px;
+        border-radius: 10px;
         margin-bottom: 12px;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
     }
-    .user-avatar-circle {
-        width: 42px;
-        height: 42px;
+    .avatar-circle {
+        width: 38px;
+        height: 38px;
         border-radius: 50%;
-        background: linear-gradient(135deg, #7c3aed 0%, #9333ea 100%);
-        color: #ffffff;
+        background: #6366f1;
+        color: white;
         display: flex;
         align-items: center;
         justify-content: center;
         font-weight: 700;
-        font-size: 1rem;
-        letter-spacing: 0.5px;
+        font-size: 0.95rem;
         flex-shrink: 0;
     }
-    .user-info-text {
-        flex-grow: 1;
-        overflow: hidden;
-    }
-    .user-name-text {
-        font-weight: 700;
-        font-size: 0.96rem;
+    .profile-meta-name {
+        font-weight: 600;
+        font-size: 0.92rem;
         color: #0f172a;
         line-height: 1.2;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
     }
-    .user-plan-badge {
-        font-size: 0.78rem;
+    .profile-meta-tier {
+        font-size: 0.75rem;
         color: #64748b;
-        font-weight: 500;
     }
 
-    /* Original App Styling */
+    /* Core UI Cards */
     .main-title {
-        font-size: 2.1rem;
+        font-size: 1.85rem;
         font-weight: 700;
-        color: #0d5c3a;
-        margin-bottom: 0.1rem;
+        color: #0f172a;
+        letter-spacing: -0.4px;
+        margin-bottom: 2px;
     }
     .sub-title {
-        color: #4A5568;
-        font-size: 0.95rem;
+        color: #64748b;
+        font-size: 0.9rem;
         margin-bottom: 1.2rem;
     }
     .tax-card {
-        background: #f0fdf4;
-        border: 1px solid #bbf7d0;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
         border-radius: 8px;
         padding: 10px 14px;
         margin: 8px 0;
     }
     .slot-card {
-        background: #eff6ff;
-        border: 1px solid #bfdbfe;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
         border-radius: 8px;
         padding: 10px 14px;
         margin: 8px 0;
-        font-size: 0.88rem;
+        font-size: 0.85rem;
     }
     .recents-header {
-        font-size: 0.82rem;
+        font-size: 0.78rem;
         font-weight: 600;
         color: #64748b;
         text-transform: uppercase;
-        letter-spacing: 0.5px;
+        letter-spacing: 0.6px;
         margin-top: 14px;
         margin-bottom: 6px;
     }
     .peas-card {
         background: #f8fafc;
-        border-left: 4px solid #0284c7;
+        border-left: 3px solid #2563eb;
         padding: 12px;
-        margin-bottom: 12px;
+        margin-bottom: 10px;
         border-radius: 6px;
-        font-size: 0.88rem;
+        font-size: 0.86rem;
     }
 </style>
 """, unsafe_allow_html=True)
 
 
 # ==============================================================================
-# VIEW 1: LANDING PAGE
+# VIEW 1: LANDING PAGE (Clean Professional SaaS Layout)
 # ==============================================================================
 def render_landing_page():
     if "landing_view" not in st.session_state:
         st.session_state.landing_view = "home"
 
-    # Top Navbar with active clickable buttons
+    # Navigation Bar
     c_brand, c_nav_home, c_nav_about, c_nav_feat, c_nav_help, c_nav_login = st.columns([5, 1, 1, 1, 1, 1.2])
     with c_brand:
         st.markdown("""
         <div style="display: flex; align-items: center; gap: 10px; padding: 4px 0;">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/8/84/Government_Seal_of_Bangladesh.svg" width="34">
-            <span style="font-size: 1.15rem; font-weight: 700; color: #0f172a;">Bangladesh Income Tax Agent</span>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/84/Government_Seal_of_Bangladesh.svg" width="32">
+            <span style="font-size: 1.1rem; font-weight: 700; color: #0f172a;">Bangladesh Income Tax Agent</span>
         </div>
         """, unsafe_allow_html=True)
     with c_nav_home:
-        if st.button("🏠 Home", use_container_width=True, type="primary" if st.session_state.landing_view == "home" else "secondary"):
+        if st.button("Home", use_container_width=True, type="primary" if st.session_state.landing_view == "home" else "secondary"):
             st.session_state.landing_view = "home"
             st.rerun()
     with c_nav_about:
-        if st.button("ℹ️ About", use_container_width=True, type="primary" if st.session_state.landing_view == "about" else "secondary"):
+        if st.button("About", use_container_width=True, type="primary" if st.session_state.landing_view == "about" else "secondary"):
             st.session_state.landing_view = "about"
             st.rerun()
     with c_nav_feat:
-        if st.button("✨ Features", use_container_width=True, type="primary" if st.session_state.landing_view == "features" else "secondary"):
+        if st.button("Features", use_container_width=True, type="primary" if st.session_state.landing_view == "features" else "secondary"):
             st.session_state.landing_view = "features"
             st.rerun()
     with c_nav_help:
-        if st.button("❓ Help", use_container_width=True, type="primary" if st.session_state.landing_view == "help" else "secondary"):
+        if st.button("Help", use_container_width=True, type="primary" if st.session_state.landing_view == "help" else "secondary"):
             st.session_state.landing_view = "help"
             st.rerun()
     with c_nav_login:
-        if st.button("🔑 Login", use_container_width=True):
+        if st.button("Sign In", use_container_width=True):
             st.session_state.current_page = "auth"
             st.session_state.auth_tab = "login"
             st.rerun()
 
-    st.markdown("<hr style='margin: 12px 0 20px 0;'>", unsafe_allow_html=True)
+    st.markdown("<hr style='margin: 8px 0 20px 0; border: none; border-top: 1px solid #e2e8f0;'>", unsafe_allow_html=True)
 
     # 1. ABOUT VIEW
     if st.session_state.landing_view == "about":
         st.markdown("""
-        <div style="background: white; border-radius: 16px; padding: 30px; border: 1px solid #e2e8f0; box-shadow: 0 4px 20px rgba(0,0,0,0.05); margin-bottom: 25px;">
-            <h2 style="color: #0d5c3a; font-weight: 800; margin-bottom: 12px;">🏛️ About Bangladesh Income Tax Agent</h2>
-            <p style="font-size: 1.05rem; line-height: 1.7; color: #334155;">
-                This system is an <b>Autonomous LLM-Based Tax Consultation and Calculation Agent</b> specifically designed for the 
+        <div style="background: white; border-radius: 12px; padding: 28px; border: 1px solid #e2e8f0; margin-bottom: 24px;">
+            <h3 style="color: #0f172a; font-weight: 700; margin-bottom: 12px;">About the Tax Consultation Agent</h3>
+            <p style="font-size: 0.98rem; line-height: 1.6; color: #334155;">
+                This system is an Autonomous Decision-Support Tax Agent developed strictly in compliance with the 
                 <b>Bangladesh Income Tax Act 2023 (আয়কর আইন ২০২৩)</b> for the active Assessment Year <b>2025-2026</b>.
             </p>
-            <h4 style="color: #0f172a; margin-top: 18px;">🎯 Core Mission & Academic Rigor:</h4>
-            <ul style="color: #475569; font-size: 0.95rem; line-height: 1.8;">
-                <li><b>Zero Mental Math Hallucination:</b> LLMs often make arithmetic mistakes. We employ deterministic Python calculation tools ensuring 100% calculation accuracy.</li>
-                <li><b>Statutory RAG Layer:</b> Direct retrieval of genuine Income Tax Act 2023 sections (Sections 32, 36, 45, 66, 166 and Sixth Schedule).</li>
-                <li><b>Clarification First:</b> The agent queries users for essential missing parameters before calculating, eliminating blind assumptions.</li>
+            <h4 style="color: #0f172a; margin-top: 16px; font-size: 1rem;">Core Engineering Principles:</h4>
+            <ul style="color: #475569; font-size: 0.92rem; line-height: 1.7;">
+                <li><b>Deterministic Rule Engine:</b> Eliminates LLM arithmetic hallucination by passing computation to verifiable Python functions.</li>
+                <li><b>Statute Retrieval:</b> Grounded in authentic statutory chapters (Section 32, Section 36-38, Section 66, and Section 166).</li>
+                <li><b>Clarification Guardrails:</b> Prompts user for missing tax parameters before applying computation rules.</li>
             </ul>
         </div>
         """, unsafe_allow_html=True)
@@ -300,24 +300,24 @@ def render_landing_page():
     # 2. FEATURES VIEW
     elif st.session_state.landing_view == "features":
         st.markdown("""
-        <div style="background: white; border-radius: 16px; padding: 30px; border: 1px solid #e2e8f0; box-shadow: 0 4px 20px rgba(0,0,0,0.05); margin-bottom: 25px;">
-            <h2 style="color: #0d5c3a; font-weight: 800; margin-bottom: 16px;">✨ System Key Features</h2>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                <div style="background: #f8fafc; padding: 18px; border-radius: 12px; border-left: 4px solid #0284c7;">
-                    <h4 style="color: #0f172a; margin-bottom: 6px;">💬 Multilingual Query Support</h4>
-                    <p style="color: #64748b; font-size: 0.9rem;">Ask naturally in Bangla, English, or Banglish. The intelligent contextual parser accurately identifies income figures and tax heads.</p>
+        <div style="background: white; border-radius: 12px; padding: 28px; border: 1px solid #e2e8f0; margin-bottom: 24px;">
+            <h3 style="color: #0f172a; font-weight: 700; margin-bottom: 16px;">Key System Capabilities</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                <div style="background: #f8fafc; padding: 16px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                    <div style="font-weight: 600; color: #0f172a; margin-bottom: 4px;">Multilingual Natural Queries</div>
+                    <div style="color: #64748b; font-size: 0.88rem;">Accepts queries in standard Bangla and English with exact figure extraction.</div>
                 </div>
-                <div style="background: #f8fafc; padding: 18px; border-radius: 12px; border-left: 4px solid #10b981;">
-                    <h4 style="color: #0f172a; margin-bottom: 6px;">🧮 Multi-Head Tax Engine</h4>
-                    <p style="color: #64748b; font-size: 0.9rem;">Automated statutory slabs, 1/3 salary exemption, 25%/30% house property repair allowance, and gift taxability check.</p>
+                <div style="background: #f8fafc; padding: 16px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                    <div style="font-weight: 600; color: #0f172a; margin-bottom: 4px;">Multi-Head Computation</div>
+                    <div style="color: #64748b; font-size: 0.88rem;">Handles salary, house rent, gifts, and business income with official deductions.</div>
                 </div>
-                <div style="background: #f8fafc; padding: 18px; border-radius: 12px; border-left: 4px solid #8b5cf6;">
-                    <h4 style="color: #0f172a; margin-bottom: 6px;">📖 Section 166 Compliance</h4>
-                    <p style="color: #64748b; font-size: 0.9rem;">Checks mandatory return-filing triggers (TIN ownership, motor cars, property ownership) even when income is zero.</p>
+                <div style="background: #f8fafc; padding: 16px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                    <div style="font-weight: 600; color: #0f172a; margin-bottom: 4px;">Section 166 Compliance</div>
+                    <div style="color: #64748b; font-size: 0.88rem;">Validates mandatory return-filing triggers even when tax payable is zero.</div>
                 </div>
-                <div style="background: #f8fafc; padding: 18px; border-radius: 12px; border-left: 4px solid #f59e0b;">
-                    <h4 style="color: #0f172a; margin-bottom: 6px;">🔒 Persistent Account History</h4>
-                    <p style="color: #64748b; font-size: 0.9rem;">All your consultations and financial records remain securely saved under your private user account.</p>
+                <div style="background: #f8fafc; padding: 16px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                    <div style="font-weight: 600; color: #0f172a; margin-bottom: 4px;">Persistent Session Store</div>
+                    <div style="color: #64748b; font-size: 0.88rem;">Saves session history securely under authenticated user accounts.</div>
                 </div>
             </div>
         </div>
@@ -326,55 +326,47 @@ def render_landing_page():
     # 3. HELP VIEW
     elif st.session_state.landing_view == "help":
         st.markdown("""
-        <div style="background: white; border-radius: 16px; padding: 30px; border: 1px solid #e2e8f0; box-shadow: 0 4px 20px rgba(0,0,0,0.05); margin-bottom: 25px;">
-            <h2 style="color: #0d5c3a; font-weight: 800; margin-bottom: 12px;">❓ Help & User Guide</h2>
-            <div style="color: #475569; font-size: 0.95rem; line-height: 1.8;">
-                <p><b>Step 1:</b> Click on <b>"Login"</b> or <b>"Start Now"</b> to sign in or create a free user account.</p>
-                <p><b>Step 2:</b> In the chat window, select the taxpayer category (Male/General, Female 65+, Disabled, etc.) for the current person.</p>
-                <p><b>Step 3:</b> Type your question (e.g. <i>"My annual salary is 12 lakh BDT, how much is my tax?"</i>) or click one of the quick sample queries.</p>
-                <p><b>Step 4:</b> Review the 4-part legal explanation: Short Answer, Statute Citation, Step-by-Step Slab Calculation, and Return Filing Advice.</p>
-            </div>
+        <div style="background: white; border-radius: 12px; padding: 28px; border: 1px solid #e2e8f0; margin-bottom: 24px;">
+            <h3 style="color: #0f172a; font-weight: 700; margin-bottom: 12px;">Operating Guide</h3>
+            <ol style="color: #475569; font-size: 0.92rem; line-height: 1.8;">
+                <li>Click <b>Smart Tax Calculation</b> to sign in or create an account.</li>
+                <li>In the dashboard, choose the relevant taxpayer category for the individual.</li>
+                <li>Submit your inquiry (e.g., <i>"Annual salary is 1,200,000 BDT, calculate tax"</i>).</li>
+                <li>Review the statutory breakdown: Short Answer, Statute Citation, Slab Calculation, and Return Advice.</li>
+            </ol>
         </div>
         """, unsafe_allow_html=True)
 
-    # HERO & CARDS
-    hero_html = """<div class="hero-container" style="margin-bottom: 18px;">
-<div class="hero-badge">🇧🇩 AY 2025-26 • Income Tax Act 2023</div>
-<div class="hero-heading">An LLM-Based<br>Bangladesh<br><span>Income Tax Agent</span></div>
-<div class="hero-subtitle">Get instant, accurate and personalized advice on Bangladesh Income Tax — anytime, anywhere. Powered by autonomous hybrid RAG and deterministic statutory calculation engines.</div>
+    # Main Hero & Action Box Layout
+    col_hero, col_action = st.columns([7, 3])
+    with col_hero:
+        hero_html = """<div class="corp-hero-card">
+<div class="corp-tag">Assessment Year 2025-2026 • Income Tax Act 2023</div>
+<div class="corp-heading">Bangladesh<br><span>Income Tax Agent</span></div>
+<div class="corp-desc">An autonomous decision-support system delivering accurate, statute-backed Bangladesh income tax consultation and slab computation.</div>
+<div class="corp-grid">
+<div class="corp-col"><div class="corp-col-title">Natural Queries</div><div class="corp-col-desc">Bangla and English parsing</div></div>
+<div class="corp-col"><div class="corp-col-title">Statutory Basis</div><div class="corp-col-desc">Income Tax Act 2023</div></div>
+<div class="corp-col"><div class="corp-col-title">Deterministic Math</div><div class="corp-col-desc">100% calculation accuracy</div></div>
+<div class="corp-col"><div class="corp-col-title">Saved Sessions</div><div class="corp-col-desc">Secure account history</div></div>
+</div>
 </div>"""
-    st.markdown(hero_html, unsafe_allow_html=True)
+        st.markdown(hero_html, unsafe_allow_html=True)
 
-    # 4 Feature Action Cards matching Image 2
-    st.markdown("<h4 style='color: #0f172a; font-weight: 700; margin: 12px 0 10px 0;'>✨ Core Capabilities:</h4>", unsafe_allow_html=True)
-    c1, c2, c3, c4 = st.columns(4)
-    with c1:
-        if st.button("💬 Ask Anything", use_container_width=True, help="Ask any tax question in Bangla or English"):
-            st.session_state.landing_view = "features"
-            st.rerun()
-    with c2:
-        if st.button("📖 Get Tax Advice", use_container_width=True, help="Read verified Act 2023 regulations"):
-            st.session_state.landing_view = "about"
-            st.rerun()
-    with c3:
-        if st.button("🧮 Calculate Tax", use_container_width=True, help="Calculate your income tax"):
+    with col_action:
+        st.markdown("""
+        <div class="action-box-container">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/84/Government_Seal_of_Bangladesh.svg" width="62">
+            <div class="action-box-title">Smart Tax Calculation</div>
+        </div>
+        """, unsafe_allow_html=True)
+        st.write("")
+        if st.button("🚀 Smart Tax Calculation", use_container_width=True, type="primary"):
             st.session_state.current_page = "auth"
             st.session_state.auth_tab = "login"
             st.rerun()
-    with c4:
-        if st.button("🔒 Personal History", use_container_width=True, help="Access your saved consultations"):
-            st.session_state.current_page = "auth"
-            st.session_state.auth_tab = "login"
-            st.rerun()
-    st.markdown("<div style='height: 18px;'></div>", unsafe_allow_html=True)
-    c_action1, c_action2 = st.columns(2)
-    with c_action1:
-        if st.button("🚀 Start Tax Consultation Now →", use_container_width=True, type="primary"):
-            st.session_state.current_page = "auth"
-            st.session_state.auth_tab = "login"
-            st.rerun()
-    with c_action2:
-        if st.button("📝 Create a New Account", use_container_width=True):
+            
+        if st.button("📝 Create Account", use_container_width=True):
             st.session_state.current_page = "auth"
             st.session_state.auth_tab = "register"
             st.rerun()
