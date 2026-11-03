@@ -243,65 +243,154 @@ st.markdown("""
 # VIEW 1: LANDING PAGE
 # ==============================================================================
 def render_landing_page():
-    # Top Navbar with original Bangladesh Seal
-    st.markdown("""
-    <div class="landing-nav">
-        <div class="landing-nav-brand">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/8/84/Government_Seal_of_Bangladesh.svg" width="34" style="vertical-align: middle;">
-            <span>Bangladesh Income Tax Agent</span>
-        </div>
-        <div style="display: flex; gap: 24px; align-items: center; font-size: 0.92rem;">
-            <span style="color: #60a5fa; font-weight: 600;">Home</span>
-            <span style="color: #cbd5e1;">About</span>
-            <span style="color: #cbd5e1;">Features</span>
-            <span style="color: #cbd5e1;">Help</span>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
+    if "landing_view" not in st.session_state:
+        st.session_state.landing_view = "home"
 
-    col_hero, col_action = st.columns([7, 3])
-    with col_hero:
-        hero_html = """<div class="hero-container">
+    # Top Navbar with active clickable buttons
+    c_brand, c_nav_home, c_nav_about, c_nav_feat, c_nav_help, c_nav_login = st.columns([5, 1, 1, 1, 1, 1.2])
+    with c_brand:
+        st.markdown("""
+        <div style="display: flex; align-items: center; gap: 10px; padding: 4px 0;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/84/Government_Seal_of_Bangladesh.svg" width="34">
+            <span style="font-size: 1.15rem; font-weight: 700; color: #0f172a;">Bangladesh Income Tax Agent</span>
+        </div>
+        """, unsafe_allow_html=True)
+    with c_nav_home:
+        if st.button("🏠 Home", use_container_width=True, type="primary" if st.session_state.landing_view == "home" else "secondary"):
+            st.session_state.landing_view = "home"
+            st.rerun()
+    with c_nav_about:
+        if st.button("ℹ️ About", use_container_width=True, type="primary" if st.session_state.landing_view == "about" else "secondary"):
+            st.session_state.landing_view = "about"
+            st.rerun()
+    with c_nav_feat:
+        if st.button("✨ Features", use_container_width=True, type="primary" if st.session_state.landing_view == "features" else "secondary"):
+            st.session_state.landing_view = "features"
+            st.rerun()
+    with c_nav_help:
+        if st.button("❓ Help", use_container_width=True, type="primary" if st.session_state.landing_view == "help" else "secondary"):
+            st.session_state.landing_view = "help"
+            st.rerun()
+    with c_nav_login:
+        if st.button("🔑 Login", use_container_width=True):
+            st.session_state.current_page = "auth"
+            st.session_state.auth_tab = "login"
+            st.rerun()
+
+    st.markdown("<hr style='margin: 12px 0 20px 0;'>", unsafe_allow_html=True)
+
+    # 1. ABOUT VIEW
+    if st.session_state.landing_view == "about":
+        st.markdown("""
+        <div style="background: white; border-radius: 16px; padding: 30px; border: 1px solid #e2e8f0; box-shadow: 0 4px 20px rgba(0,0,0,0.05); margin-bottom: 25px;">
+            <h2 style="color: #0d5c3a; font-weight: 800; margin-bottom: 12px;">🏛️ About Bangladesh Income Tax Agent</h2>
+            <p style="font-size: 1.05rem; line-height: 1.7; color: #334155;">
+                This system is an <b>Autonomous LLM-Based Tax Consultation and Calculation Agent</b> specifically designed for the 
+                <b>Bangladesh Income Tax Act 2023 (আয়কর আইন ২০২৩)</b> for the active Assessment Year <b>2025-2026</b>.
+            </p>
+            <h4 style="color: #0f172a; margin-top: 18px;">🎯 Core Mission & Academic Rigor:</h4>
+            <ul style="color: #475569; font-size: 0.95rem; line-height: 1.8;">
+                <li><b>Zero Mental Math Hallucination:</b> LLMs often make arithmetic mistakes. We employ deterministic Python calculation tools ensuring 100% calculation accuracy.</li>
+                <li><b>Statutory RAG Layer:</b> Direct retrieval of genuine Income Tax Act 2023 sections (Sections 32, 36, 45, 66, 166 and Sixth Schedule).</li>
+                <li><b>Clarification First:</b> The agent queries users for essential missing parameters before calculating, eliminating blind assumptions.</li>
+            </ul>
+        </div>
+        """, unsafe_allow_html=True)
+
+    # 2. FEATURES VIEW
+    elif st.session_state.landing_view == "features":
+        st.markdown("""
+        <div style="background: white; border-radius: 16px; padding: 30px; border: 1px solid #e2e8f0; box-shadow: 0 4px 20px rgba(0,0,0,0.05); margin-bottom: 25px;">
+            <h2 style="color: #0d5c3a; font-weight: 800; margin-bottom: 16px;">✨ System Key Features</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div style="background: #f8fafc; padding: 18px; border-radius: 12px; border-left: 4px solid #0284c7;">
+                    <h4 style="color: #0f172a; margin-bottom: 6px;">💬 Multilingual Query Support</h4>
+                    <p style="color: #64748b; font-size: 0.9rem;">Ask naturally in Bangla, English, or Banglish. The intelligent contextual parser accurately identifies income figures and tax heads.</p>
+                </div>
+                <div style="background: #f8fafc; padding: 18px; border-radius: 12px; border-left: 4px solid #10b981;">
+                    <h4 style="color: #0f172a; margin-bottom: 6px;">🧮 Multi-Head Tax Engine</h4>
+                    <p style="color: #64748b; font-size: 0.9rem;">Automated statutory slabs, 1/3 salary exemption, 25%/30% house property repair allowance, and gift taxability check.</p>
+                </div>
+                <div style="background: #f8fafc; padding: 18px; border-radius: 12px; border-left: 4px solid #8b5cf6;">
+                    <h4 style="color: #0f172a; margin-bottom: 6px;">📖 Section 166 Compliance</h4>
+                    <p style="color: #64748b; font-size: 0.9rem;">Checks mandatory return-filing triggers (TIN ownership, motor cars, property ownership) even when income is zero.</p>
+                </div>
+                <div style="background: #f8fafc; padding: 18px; border-radius: 12px; border-left: 4px solid #f59e0b;">
+                    <h4 style="color: #0f172a; margin-bottom: 6px;">🔒 Persistent Account History</h4>
+                    <p style="color: #64748b; font-size: 0.9rem;">All your consultations and financial records remain securely saved under your private user account.</p>
+                </div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    # 3. HELP VIEW
+    elif st.session_state.landing_view == "help":
+        st.markdown("""
+        <div style="background: white; border-radius: 16px; padding: 30px; border: 1px solid #e2e8f0; box-shadow: 0 4px 20px rgba(0,0,0,0.05); margin-bottom: 25px;">
+            <h2 style="color: #0d5c3a; font-weight: 800; margin-bottom: 12px;">❓ Help & User Guide</h2>
+            <div style="color: #475569; font-size: 0.95rem; line-height: 1.8;">
+                <p><b>Step 1:</b> Click on <b>"Login"</b> or <b>"Start Now"</b> to sign in or create a free user account.</p>
+                <p><b>Step 2:</b> In the chat window, select the taxpayer category (Male/General, Female 65+, Disabled, etc.) for the current person.</p>
+                <p><b>Step 3:</b> Type your question (e.g. <i>"My annual salary is 12 lakh BDT, how much is my tax?"</i>) or click one of the quick sample queries.</p>
+                <p><b>Step 4:</b> Review the 4-part legal explanation: Short Answer, Statute Citation, Step-by-Step Slab Calculation, and Return Filing Advice.</p>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    # HERO & CARDS
+    hero_html = """<div class="hero-container" style="margin-bottom: 18px;">
 <div class="hero-badge">🇧🇩 AY 2025-26 • Income Tax Act 2023</div>
 <div class="hero-heading">An LLM-Based<br>Bangladesh<br><span>Income Tax Agent</span></div>
 <div class="hero-subtitle">Get instant, accurate and personalized advice on Bangladesh Income Tax — anytime, anywhere. Powered by autonomous hybrid RAG and deterministic statutory calculation engines.</div>
-<div class="feature-grid">
-<div class="feature-item"><div class="feature-icon">💬</div><div class="feature-title">Ask Anything</div><div class="feature-desc">Bangla and English Queries</div></div>
-<div class="feature-item"><div class="feature-icon">📖</div><div class="feature-title">Get Tax Advice</div><div class="feature-desc">Based on Act 2023</div></div>
-<div class="feature-item"><div class="feature-icon">🧮</div><div class="feature-title">Calculate Tax</div><div class="feature-desc">100% Math Accuracy</div></div>
-<div class="feature-item"><div class="feature-icon">🔒</div><div class="feature-title">Personal History</div><div class="feature-desc">Saved Consultations</div></div>
-</div>
 </div>"""
-        st.markdown(hero_html, unsafe_allow_html=True)
-    with col_action:
-        st.markdown("<div style='height: 20px;'></div>", unsafe_allow_html=True)
-        st.markdown("""
-        <div style="background: white; border-radius: 18px; padding: 28px 22px; border: 1px solid #e2e8f0; box-shadow: 0 10px 30px rgba(0,0,0,0.06); text-align: center;">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/8/84/Government_Seal_of_Bangladesh.svg" width="60" style="margin-bottom: 12px;">
-            <h3 style="font-weight: 700; color: #0d5c3a; margin-bottom: 8px;">Start Tax Consultation</h3>
-            <p style="color: #64748b; font-size: 0.88rem; line-height: 1.5; margin-bottom: 22px;">
-                Sign in to your account to access your personal tax calculations, Section 166 return guidance, and saved multi-session chat history.
-            </p>
-        </div>
-        """, unsafe_allow_html=True)
-        
-        st.write("")
-        c_btn1, c_btn2 = st.columns(2)
-        with c_btn1:
-            if st.button("🚀 Start Now →", use_container_width=True, type="primary"):
-                st.session_state.current_page = "auth"
-                st.session_state.auth_tab = "login"
-                st.rerun()
-        with c_btn2:
-            if st.button("📝 Register", use_container_width=True):
-                st.session_state.current_page = "auth"
-                st.session_state.auth_tab = "register"
-                st.rerun()
+    st.markdown(hero_html, unsafe_allow_html=True)
+
+    # Interactive 4 Feature Action Cards matching Image 2
+    st.markdown("<h4 style='color: #0f172a; font-weight: 700; margin: 12px 0 10px 0;'>✨ Explore Core Capabilities:</h4>", unsafe_allow_html=True)
+    c1, c2, c3, c4 = st.columns(4)
+    with c1:
+        if st.button("💬 Ask Anything
+
+Bangla & English Queries", use_container_width=True):
+            st.session_state.current_page = "auth"
+            st.session_state.auth_tab = "login"
+            st.rerun()
+    with c2:
+        if st.button("📖 Get Tax Advice
+
+Based on Act 2023", use_container_width=True):
+            st.session_state.current_page = "auth"
+            st.session_state.auth_tab = "login"
+            st.rerun()
+    with c3:
+        if st.button("🧮 Calculate Tax
+
+100% Math Accuracy", use_container_width=True):
+            st.session_state.current_page = "auth"
+            st.session_state.auth_tab = "login"
+            st.rerun()
+    with c4:
+        if st.button("🔒 Personal History
+
+Saved Consultations", use_container_width=True):
+            st.session_state.current_page = "auth"
+            st.session_state.auth_tab = "login"
+            st.rerun()
+
+    st.markdown("<div style='height: 18px;'></div>", unsafe_allow_html=True)
+    c_action1, c_action2 = st.columns(2)
+    with c_action1:
+        if st.button("🚀 Start Tax Consultation Now →", use_container_width=True, type="primary"):
+            st.session_state.current_page = "auth"
+            st.session_state.auth_tab = "login"
+            st.rerun()
+    with c_action2:
+        if st.button("📝 Create a New Account", use_container_width=True):
+            st.session_state.current_page = "auth"
+            st.session_state.auth_tab = "register"
+            st.rerun()
 
 
-# ==============================================================================
-# VIEW 2: AUTHENTICATION (Login / Register)
-# ==============================================================================
 def render_auth_page():
     col_back, col_space = st.columns([2, 8])
     with col_back:
