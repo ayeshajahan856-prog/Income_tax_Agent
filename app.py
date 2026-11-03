@@ -261,42 +261,18 @@ def render_landing_page():
 
     col_hero, col_action = st.columns([7, 3])
     with col_hero:
-        st.markdown("""
-        <div class="hero-container">
-            <div class="hero-badge">🇧🇩 AY 2025-26 • Income Tax Act 2023</div>
-            <div class="hero-heading">
-                An LLM-Based<br>Bangladesh<br><span>Income Tax Agent</span>
-            </div>
-            <div class="hero-subtitle">
-                Get instant, accurate and personalized advice on Bangladesh Income Tax — anytime, anywhere. 
-                Powered by autonomous hybrid RAG and deterministic statutory calculation engines.
-            </div>
-            
-            <div class="feature-grid">
-                <div class="feature-item">
-                    <div class="feature-icon">💬</div>
-                    <div class="feature-title">Ask Anything</div>
-                    <div class="feature-desc">Bangla & English Queries</div>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-icon">📖</div>
-                    <div class="feature-title">Get Tax Advice</div>
-                    <div class="feature-desc">Based on Act 2023</div>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-icon">🧮</div>
-                    <div class="feature-title">Calculate Tax</div>
-                    <div class="feature-desc">100% Math Accuracy</div>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-icon">🔒</div>
-                    <div class="feature-title">Personal History</div>
-                    <div class="feature-desc">Saved Consultations</div>
-                </div>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-        
+        hero_html = """<div class="hero-container">
+<div class="hero-badge">🇧🇩 AY 2025-26 • Income Tax Act 2023</div>
+<div class="hero-heading">An LLM-Based<br>Bangladesh<br><span>Income Tax Agent</span></div>
+<div class="hero-subtitle">Get instant, accurate and personalized advice on Bangladesh Income Tax — anytime, anywhere. Powered by autonomous hybrid RAG and deterministic statutory calculation engines.</div>
+<div class="feature-grid">
+<div class="feature-item"><div class="feature-icon">💬</div><div class="feature-title">Ask Anything</div><div class="feature-desc">Bangla and English Queries</div></div>
+<div class="feature-item"><div class="feature-icon">📖</div><div class="feature-title">Get Tax Advice</div><div class="feature-desc">Based on Act 2023</div></div>
+<div class="feature-item"><div class="feature-icon">🧮</div><div class="feature-title">Calculate Tax</div><div class="feature-desc">100% Math Accuracy</div></div>
+<div class="feature-item"><div class="feature-icon">🔒</div><div class="feature-title">Personal History</div><div class="feature-desc">Saved Consultations</div></div>
+</div>
+</div>"""
+        st.markdown(hero_html, unsafe_allow_html=True)
     with col_action:
         st.markdown("<div style='height: 20px;'></div>", unsafe_allow_html=True)
         st.markdown("""
