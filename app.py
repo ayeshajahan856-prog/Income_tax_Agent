@@ -345,38 +345,27 @@ def render_landing_page():
 </div>"""
     st.markdown(hero_html, unsafe_allow_html=True)
 
-    # Interactive 4 Feature Action Cards matching Image 2
-    st.markdown("<h4 style='color: #0f172a; font-weight: 700; margin: 12px 0 10px 0;'>✨ Explore Core Capabilities:</h4>", unsafe_allow_html=True)
+    # 4 Feature Action Cards matching Image 2
+    st.markdown("<h4 style='color: #0f172a; font-weight: 700; margin: 12px 0 10px 0;'>✨ Core Capabilities:</h4>", unsafe_allow_html=True)
     c1, c2, c3, c4 = st.columns(4)
     with c1:
-        if st.button("💬 Ask Anything
-
-Bangla & English Queries", use_container_width=True):
-            st.session_state.current_page = "auth"
-            st.session_state.auth_tab = "login"
+        if st.button("💬 Ask Anything", use_container_width=True, help="Ask any tax question in Bangla or English"):
+            st.session_state.landing_view = "features"
             st.rerun()
     with c2:
-        if st.button("📖 Get Tax Advice
-
-Based on Act 2023", use_container_width=True):
-            st.session_state.current_page = "auth"
-            st.session_state.auth_tab = "login"
+        if st.button("📖 Get Tax Advice", use_container_width=True, help="Read verified Act 2023 regulations"):
+            st.session_state.landing_view = "about"
             st.rerun()
     with c3:
-        if st.button("🧮 Calculate Tax
-
-100% Math Accuracy", use_container_width=True):
+        if st.button("🧮 Calculate Tax", use_container_width=True, help="Calculate your income tax"):
             st.session_state.current_page = "auth"
             st.session_state.auth_tab = "login"
             st.rerun()
     with c4:
-        if st.button("🔒 Personal History
-
-Saved Consultations", use_container_width=True):
+        if st.button("🔒 Personal History", use_container_width=True, help="Access your saved consultations"):
             st.session_state.current_page = "auth"
             st.session_state.auth_tab = "login"
             st.rerun()
-
     st.markdown("<div style='height: 18px;'></div>", unsafe_allow_html=True)
     c_action1, c_action2 = st.columns(2)
     with c_action1:
