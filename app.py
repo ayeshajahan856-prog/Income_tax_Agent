@@ -450,23 +450,22 @@ def render_chat_app():
         st.image("https://upload.wikimedia.org/wikipedia/commons/8/84/Government_Seal_of_Bangladesh.svg", width=65)
         st.markdown("### 🏛️ Taxpayer Dashboard")
 
-        # ChatGPT-style User Profile (matching Image 2)
-        st.markdown(f"""
-        <div class="chatgpt-profile-row">
-            <div class="user-avatar-circle">{initials}</div>
-            <div class="user-info-text">
-                <div class="user-name-text">{user['name']}</div>
-                <div class="user-plan-badge">Free • Member</div>
+        # ChatGPT-style User Profile with Popup Menu (Matching uploaded images)
+        profile_label = f"🟣 {user['name']}   (Free)"
+        with st.popover(profile_label, use_container_width=True):
+            st.markdown(f"""
+            <div style="padding: 4px 0;">
+                <div style="font-weight: 700; color: #0f172a; font-size: 0.95rem;">{user['name']}</div>
+                <div style="font-size: 0.8rem; color: #64748b; margin-bottom: 8px;">{user['email']}</div>
             </div>
-        </div>
-        """, unsafe_allow_html=True)
-
-        if st.button("🚪 Sign Out", use_container_width=True, type="secondary"):
-            st.session_state.logged_in_user = None
-            st.session_state.current_page = "landing"
-            st.session_state.pop("conversations", None)
-            st.session_state.pop("_active_user_id", None)
-            st.rerun()
+            """, unsafe_allow_html=True)
+            
+            if st.button("🚪 Log out", use_container_width=True, type="secondary"):
+                st.session_state.logged_in_user = None
+                st.session_state.current_page = "landing"
+                st.session_state.pop("conversations", None)
+                st.session_state.pop("_active_user_id", None)
+                st.rerun()
 
         st.markdown("---")
 
