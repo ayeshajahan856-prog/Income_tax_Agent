@@ -450,24 +450,7 @@ def render_chat_app():
         st.image("https://upload.wikimedia.org/wikipedia/commons/8/84/Government_Seal_of_Bangladesh.svg", width=65)
         st.markdown("### 🏛️ Taxpayer Dashboard")
 
-        # ChatGPT-style User Profile with Popup Menu (Matching uploaded images)
-        profile_label = f"🟣 {user['name']}   (Free)"
-        with st.popover(profile_label, use_container_width=True):
-            st.markdown(f"""
-            <div style="padding: 4px 0;">
-                <div style="font-weight: 700; color: #0f172a; font-size: 0.95rem;">{user['name']}</div>
-                <div style="font-size: 0.8rem; color: #64748b; margin-bottom: 8px;">{user['email']}</div>
-            </div>
-            """, unsafe_allow_html=True)
-            
-            if st.button("🚪 Log out", use_container_width=True, type="secondary"):
-                st.session_state.logged_in_user = None
-                st.session_state.current_page = "landing"
-                st.session_state.pop("conversations", None)
-                st.session_state.pop("_active_user_id", None)
-                st.rerun()
 
-        st.markdown("---")
 
         # Active Assessment Year
         selected_year = RULES.get("active_assessment_year", "2025-2026")
@@ -590,10 +573,29 @@ def render_chat_app():
 
         st.markdown("---")
         st.markdown("""
-        <div style="font-size: 0.74rem; color: #64748b; line-height: 1.45;">
+        <div style="font-size: 0.74rem; color: #64748b; line-height: 1.45; margin-bottom: 14px;">
             ⚖️ <b>Legal Disclaimer:</b> Educational AI prototype for decision-support and does not substitute for certified tax advocate or official NBR legal advice.
         </div>
         """, unsafe_allow_html=True)
+
+        st.markdown("<hr style='margin: 8px 0 12px 0;'>", unsafe_allow_html=True)
+
+        # ChatGPT style profile pinned at very bottom of sidebar
+        profile_label = f"🟣 {user['name']}   (Free)"
+        with st.popover(profile_label, use_container_width=True):
+            st.markdown(f"""
+            <div style="padding: 4px 0;">
+                <div style="font-weight: 700; color: #0f172a; font-size: 0.95rem;">{user['name']}</div>
+                <div style="font-size: 0.8rem; color: #64748b; margin-bottom: 8px;">{user['email']}</div>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            if st.button("🚪 Log out", use_container_width=True, type="secondary"):
+                st.session_state.logged_in_user = None
+                st.session_state.current_page = "landing"
+                st.session_state.pop("conversations", None)
+                st.session_state.pop("_active_user_id", None)
+                st.rerun()
 
     # ----------------- MAIN CHAT / EVALUATION INTERFACE -----------------
     st.markdown('<div class="main-title">🇧🇩 Bangladesh Income Tax AI Assistant</div>', unsafe_allow_html=True)
