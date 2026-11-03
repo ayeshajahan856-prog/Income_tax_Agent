@@ -246,8 +246,8 @@ def render_landing_page():
     if "landing_view" not in st.session_state:
         st.session_state.landing_view = "home"
 
-    # Navigation Bar
-    c_brand, c_nav_home, c_nav_about, c_nav_feat, c_nav_help, c_nav_login = st.columns([5, 1, 1, 1, 1, 1.2])
+    # Clean Minimal Navigation Bar (Home, Help, Sign In)
+    c_brand, c_nav_home, c_nav_help, c_nav_login = st.columns([7, 1.2, 1.2, 1.4])
     with c_brand:
         st.markdown("""
         <div style="display: flex; align-items: center; gap: 10px; padding: 4px 0;">
@@ -258,14 +258,6 @@ def render_landing_page():
     with c_nav_home:
         if st.button("Home", use_container_width=True, type="primary" if st.session_state.landing_view == "home" else "secondary"):
             st.session_state.landing_view = "home"
-            st.rerun()
-    with c_nav_about:
-        if st.button("About", use_container_width=True, type="primary" if st.session_state.landing_view == "about" else "secondary"):
-            st.session_state.landing_view = "about"
-            st.rerun()
-    with c_nav_feat:
-        if st.button("Features", use_container_width=True, type="primary" if st.session_state.landing_view == "features" else "secondary"):
-            st.session_state.landing_view = "features"
             st.rerun()
     with c_nav_help:
         if st.button("Help", use_container_width=True, type="primary" if st.session_state.landing_view == "help" else "secondary"):
@@ -279,52 +271,8 @@ def render_landing_page():
 
     st.markdown("<hr style='margin: 8px 0 20px 0; border: none; border-top: 1px solid #e2e8f0;'>", unsafe_allow_html=True)
 
-    # 1. ABOUT VIEW
-    if st.session_state.landing_view == "about":
-        st.markdown("""
-        <div style="background: white; border-radius: 12px; padding: 28px; border: 1px solid #e2e8f0; margin-bottom: 24px;">
-            <h3 style="color: #0f172a; font-weight: 700; margin-bottom: 12px;">About the Tax Consultation Agent</h3>
-            <p style="font-size: 0.98rem; line-height: 1.6; color: #334155;">
-                This system is an Autonomous Decision-Support Tax Agent developed strictly in compliance with the 
-                <b>Bangladesh Income Tax Act 2023 (আয়কর আইন ২০২৩)</b> for the active Assessment Year <b>2025-2026</b>.
-            </p>
-            <h4 style="color: #0f172a; margin-top: 16px; font-size: 1rem;">Core Engineering Principles:</h4>
-            <ul style="color: #475569; font-size: 0.92rem; line-height: 1.7;">
-                <li><b>Deterministic Rule Engine:</b> Eliminates LLM arithmetic hallucination by passing computation to verifiable Python functions.</li>
-                <li><b>Statute Retrieval:</b> Grounded in authentic statutory chapters (Section 32, Section 36-38, Section 66, and Section 166).</li>
-                <li><b>Clarification Guardrails:</b> Prompts user for missing tax parameters before applying computation rules.</li>
-            </ul>
-        </div>
-        """, unsafe_allow_html=True)
-
-    # 2. FEATURES VIEW
-    elif st.session_state.landing_view == "features":
-        st.markdown("""
-        <div style="background: white; border-radius: 12px; padding: 28px; border: 1px solid #e2e8f0; margin-bottom: 24px;">
-            <h3 style="color: #0f172a; font-weight: 700; margin-bottom: 16px;">Key System Capabilities</h3>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-                <div style="background: #f8fafc; padding: 16px; border-radius: 8px; border: 1px solid #e2e8f0;">
-                    <div style="font-weight: 600; color: #0f172a; margin-bottom: 4px;">Multilingual Natural Queries</div>
-                    <div style="color: #64748b; font-size: 0.88rem;">Accepts queries in standard Bangla and English with exact figure extraction.</div>
-                </div>
-                <div style="background: #f8fafc; padding: 16px; border-radius: 8px; border: 1px solid #e2e8f0;">
-                    <div style="font-weight: 600; color: #0f172a; margin-bottom: 4px;">Multi-Head Computation</div>
-                    <div style="color: #64748b; font-size: 0.88rem;">Handles salary, house rent, gifts, and business income with official deductions.</div>
-                </div>
-                <div style="background: #f8fafc; padding: 16px; border-radius: 8px; border: 1px solid #e2e8f0;">
-                    <div style="font-weight: 600; color: #0f172a; margin-bottom: 4px;">Section 166 Compliance</div>
-                    <div style="color: #64748b; font-size: 0.88rem;">Validates mandatory return-filing triggers even when tax payable is zero.</div>
-                </div>
-                <div style="background: #f8fafc; padding: 16px; border-radius: 8px; border: 1px solid #e2e8f0;">
-                    <div style="font-weight: 600; color: #0f172a; margin-bottom: 4px;">Persistent Session Store</div>
-                    <div style="color: #64748b; font-size: 0.88rem;">Saves session history securely under authenticated user accounts.</div>
-                </div>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-
-    # 3. HELP VIEW
-    elif st.session_state.landing_view == "help":
+    # HELP VIEW
+    if st.session_state.landing_view == "help":
         st.markdown("""
         <div style="background: white; border-radius: 12px; padding: 28px; border: 1px solid #e2e8f0; margin-bottom: 24px;">
             <h3 style="color: #0f172a; font-weight: 700; margin-bottom: 12px;">Operating Guide</h3>
